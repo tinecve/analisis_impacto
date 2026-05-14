@@ -8,6 +8,8 @@ import java.time.LocalDate;
 @Table(name = "trabajos_grado")
 public class TrabajoGrado {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
     private String resumen;

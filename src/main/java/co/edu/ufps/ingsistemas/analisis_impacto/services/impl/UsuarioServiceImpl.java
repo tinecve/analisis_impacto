@@ -58,10 +58,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario actualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) {
+    public UsuarioResponseDTO actualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado"));
-        return null
+        usuario.setNombre(usuarioRequestDTO.getNombre());
+        usuario.setApellido(usuarioRequestDTO.getApellido());
+        if(usuarioRequestDTO.getPassword() != null && !usuarioRequestDTO.getPassword().isEmpty()){
+            usuario.setApellido(passwordEncoder.encode(usuarioRequestDTO.getPassword()));
+        }
+        return mapToDTO(usuarioRepository.save(usuario));
     }
 
     @Override
@@ -75,7 +80,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioResponseDTO mapToDTO(Usuario usuario){
         UsuarioResponseDTO dto = new UsuarioResponseDTO();
         dto.setId(usuario.getId());
-        dto.setEmail();
+        dto.setEmail(usuario.getEmail());
+        dto.setNombre(usuario.getNombre());
+        dto.setApellido(usuario.getApellido());
+        dto.setRol(usuario.getRol().name());
+        dto.setFechaRegistro(usuario.getFechaRegistro());
+        return dto;
     }
 
 }
