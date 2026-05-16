@@ -38,7 +38,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .build();
 
         Usuario guardado = usuarioRepository.save(usuario);
-        return null;
+        return this.mapToDTO(guardado);
     }
 
     @Override
