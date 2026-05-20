@@ -6,6 +6,7 @@ import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.ApiResponse;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.Usuario;
 import co.edu.ufps.ingsistemas.analisis_impacto.repository.UsuarioRepository;
 import co.edu.ufps.ingsistemas.analisis_impacto.security.JwtUtil;
+import co.edu.ufps.ingsistemas.analisis_impacto.services.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequestDTO request){
@@ -39,9 +41,11 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(response, "Login exitoso"));
     }
 
+    @PostMapping("/register")
     public ResponseEntity<ApiResponse<String>> register(
             @Valid @RequestBody UsuarioRequestDTO request
             ){
+        this.usuarioService.crearUsuario(request);
         return ResponseEntity.ok(ApiResponse.success("Usuario registrado", "Registro exitoso"));
     }
 

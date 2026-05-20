@@ -1,9 +1,11 @@
 package co.edu.ufps.ingsistemas.analisis_impacto.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
+@Data
 @Entity
 @Table(
         name = "cohortes",
