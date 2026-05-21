@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/modalidades")
+@RequestMapping("/api/modalidades")
 @RequiredArgsConstructor
 public class ModalidadController {
 
