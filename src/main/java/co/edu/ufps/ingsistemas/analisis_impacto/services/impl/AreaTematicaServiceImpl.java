@@ -24,7 +24,7 @@ public class AreaTematicaServiceImpl implements AreaTematicaService {
     @Override
     public AreaTematicaResponse crearAreaTematica(AreaTematicaRequest areaTematicaRequest) {
         if(this.areaTematicaRepository.existsByNombre(areaTematicaRequest.nombre())){
-            throw new RuntimeException("El nombre ya esta registrado");
+            throw new RuntimeException("La tematica ya esta registrado");
         }
 
         AreaTematica areaTematica = this.areaTematicaMapper.toEntity(areaTematicaRequest);
