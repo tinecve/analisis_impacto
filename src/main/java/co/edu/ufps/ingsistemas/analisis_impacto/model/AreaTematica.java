@@ -1,11 +1,13 @@
 package co.edu.ufps.ingsistemas.analisis_impacto.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "areas_tematicas")
-@Data
+@Setter
+@Getter
 public class AreaTematica {
 
     @Id

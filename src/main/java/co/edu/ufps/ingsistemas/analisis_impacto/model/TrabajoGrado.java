@@ -1,11 +1,13 @@
 package co.edu.ufps.ingsistemas.analisis_impacto.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "trabajos_grado")
 public class TrabajoGrado {

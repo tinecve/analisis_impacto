@@ -1,9 +1,11 @@
 package co.edu.ufps.ingsistemas.analisis_impacto.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "modalidades")
 public class Modalidad {
