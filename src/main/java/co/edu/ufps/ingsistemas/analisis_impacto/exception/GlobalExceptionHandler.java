@@ -1,6 +1,7 @@
 package co.edu.ufps.ingsistemas.analisis_impacto.exception;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.ApiResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -43,5 +44,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleAlreadyExists(ResourceAlreadyExistsException ex){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error(ex.getMessage()));
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleDataIntegrity(DataIntegrityViolationException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error("El registro ya existe o viola un arestriccion única"));
+    }
+
 
 }
