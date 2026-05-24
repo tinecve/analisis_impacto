@@ -35,10 +35,11 @@ public class ModalidadServiceImpl implements ModalidadService {
     @Override
     public List<ModalidadResponse> listarModalidades() {
         List<Modalidad> modalidades = this.modalidadRepository.findAll();
-        if(modalidades.isEmpty()){
-            return null;
-        }
         List<ModalidadResponse> modalidads = new ArrayList<>();
+
+        if(modalidades.isEmpty()){
+            return modalidads;
+        }
         for(Modalidad modalidad: modalidades){
             modalidads.add(this.modalidadMapper.toModalidadResponse(modalidad));
         }

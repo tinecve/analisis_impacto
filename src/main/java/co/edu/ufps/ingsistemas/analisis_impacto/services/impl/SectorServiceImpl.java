@@ -33,10 +33,11 @@ public class SectorServiceImpl implements SectorService {
     @Override
     public List<SectorResponse> listarSectores() {
         List<Sector> sectores = this.sectorRepository.findAll();
-        if(sectores.isEmpty()){
-            return null;
-        }
         List<SectorResponse> sectorResponses = new ArrayList<>();
+
+        if(sectores.isEmpty()){
+            return sectorResponses;
+        }
         for (Sector sector: sectores){
             sectorResponses.add(this.sectorMapper.toSectorResponse(sector));
         }

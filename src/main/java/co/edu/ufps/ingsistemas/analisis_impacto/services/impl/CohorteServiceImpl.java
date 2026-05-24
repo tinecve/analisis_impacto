@@ -33,10 +33,11 @@ public class CohorteServiceImpl implements CohorteService {
     @Override
     public List<CohorteResponse> listarCohortes() {
         List<Cohorte> cohortes = this.cohorteRepository.findAll();
-        if(cohortes.isEmpty()){
-            return null;
-        }
+
         List<CohorteResponse> cohorteResponses = new ArrayList<>();
+        if(cohortes.isEmpty()){
+            return cohorteResponses;
+        }
         for(Cohorte cohorte: cohortes){
             cohorteResponses.add(this.cohorteMapper.toCohorteResponse(cohorte));
         }

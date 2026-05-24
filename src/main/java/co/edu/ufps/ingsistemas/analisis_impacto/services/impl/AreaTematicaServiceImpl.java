@@ -35,10 +35,11 @@ public class AreaTematicaServiceImpl implements AreaTematicaService {
     @Override
     public List<AreaTematicaResponse> listarAreasTematicas() {
         List<AreaTematica> areaTematicas = this.areaTematicaRepository.findAll();
-        if(areaTematicas.isEmpty()){
-            return null;
-        }
+
         List<AreaTematicaResponse> areaTematicaResponses = new ArrayList<>();
+        if(areaTematicas.isEmpty()){
+            return areaTematicaResponses;
+        }
         for(AreaTematica areaTematica: areaTematicas){
             areaTematicaResponses.add(this.areaTematicaMapper.toAreaTematicaResponse(areaTematica));
         }

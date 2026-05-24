@@ -33,10 +33,11 @@ public class TipoProductoServiceImpl implements TipoProductoService {
     @Override
     public List<TipoProductoResponse> listarTiposProductos() {
         List<TipoProducto> tipoProductos = this.tipoProductoRepository.findAll();
-        if(tipoProductos.isEmpty()){
-
-        }
         List<TipoProductoResponse> tipoProductoResponses = new ArrayList<>();
+
+        if(tipoProductos.isEmpty()){
+            return tipoProductoResponses;
+        }
         for(TipoProducto tipoProducto: tipoProductos){
             tipoProductoResponses.add(this.tipoProductoMapper.toTipoProductorResponse(tipoProducto));
         }

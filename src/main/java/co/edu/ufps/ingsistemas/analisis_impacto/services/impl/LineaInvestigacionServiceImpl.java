@@ -33,10 +33,11 @@ public class LineaInvestigacionServiceImpl implements LineaInvestigacionService 
     @Override
     public List<LineaInvestigacionResponse> listarLineas() {
         List<LineaInvestigacion> lineaInvestigacions = this.lineaInvestigacionRepository.findAll();
-        if(lineaInvestigacions.isEmpty()){
-            return null;
-        }
         List<LineaInvestigacionResponse> lineaInvestigacionResponses = new ArrayList<>();
+
+        if(lineaInvestigacions.isEmpty()){
+            return lineaInvestigacionResponses;
+        }
         for(LineaInvestigacion lineaInvestigacion: lineaInvestigacions){
             lineaInvestigacionResponses.add(this.lineaInvestigacionMapper.toLineaInvestigacionResponse(lineaInvestigacion));
         }

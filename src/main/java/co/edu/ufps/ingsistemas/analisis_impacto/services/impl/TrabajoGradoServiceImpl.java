@@ -39,10 +39,11 @@ public class TrabajoGradoServiceImpl implements TrabajoGradoService {
     @Override
     public List<TrabajoGradoResponse> listarTrabajosGrado() {
         List<TrabajoGrado> trabajosGrado = this.trabajoGradoRepository.findAll();
-        if(trabajosGrado.isEmpty()){
-            return null;
-        }
         List<TrabajoGradoResponse> trabajoGradoResponses = new ArrayList<>();
+
+        if(trabajosGrado.isEmpty()){
+            return trabajoGradoResponses;
+        }
         for(TrabajoGrado trabajoGrado: trabajosGrado){
             trabajoGradoResponses.add(this.trabajoGradoMapper.toTrabajoGradoResponse(trabajoGrado));
         }
