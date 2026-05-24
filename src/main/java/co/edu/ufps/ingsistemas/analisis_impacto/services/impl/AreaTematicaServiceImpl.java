@@ -2,6 +2,7 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.AreaTematicaRequest;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.AreaTematicaResponse;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.mapper.AreaTematicaMapper;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.AreaTematica;
@@ -24,7 +25,7 @@ public class AreaTematicaServiceImpl implements AreaTematicaService {
     @Override
     public AreaTematicaResponse crearAreaTematica(AreaTematicaRequest areaTematicaRequest) {
         if(this.areaTematicaRepository.existsByNombre(areaTematicaRequest.nombre())){
-            throw new RuntimeException("La tematica ya esta registrado");
+            throw new ResourceAlreadyExistsException("La tematica ya esta registrado");
         }
 
         AreaTematica areaTematica = this.areaTematicaMapper.toEntity(areaTematicaRequest);

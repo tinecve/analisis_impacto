@@ -2,6 +2,7 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.CohorteRequest;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.CohorteResponse;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.mapper.CohorteMapper;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.Cohorte;
@@ -24,7 +25,7 @@ public class CohorteServiceImpl implements CohorteService {
     @Override
     public CohorteResponse crearCohorte(CohorteRequest cohorteRequest) {
         if (this.cohorteRepository.existsByAnioAndSemestre(cohorteRequest.inio(), cohorteRequest.semestre())){
-            throw new RuntimeException("El cohorte ya esta registrado");
+            throw new ResourceAlreadyExistsException("El cohorte ya esta registrado");
         }
         Cohorte cohorte = this.cohorteMapper.toEntity(cohorteRequest);
         return this.cohorteMapper.toCohorteResponse(this.cohorteRepository.save(cohorte));

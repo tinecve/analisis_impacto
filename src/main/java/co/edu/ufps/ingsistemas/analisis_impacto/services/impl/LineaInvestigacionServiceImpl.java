@@ -2,6 +2,7 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.LineaInvestigacionRequest;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.LineaInvestigacionResponse;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.mapper.LineaInvestigacionMapper;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.LineaInvestigacion;
@@ -24,7 +25,7 @@ public class LineaInvestigacionServiceImpl implements LineaInvestigacionService 
     @Override
     public LineaInvestigacionResponse crearLineaInvestigacion(LineaInvestigacionRequest lineaInvestigacionRequest) {
         if(this.lineaInvestigacionRepository.existsByNombre(lineaInvestigacionRequest.nombre())){
-            throw new RuntimeException("La linea de investigación ya esta registrada");
+            throw new ResourceAlreadyExistsException("La linea de investigación ya esta registrada");
         }
         LineaInvestigacion lineaInvestigacion = this.lineaInvestigacionMapper.toEntity(lineaInvestigacionRequest);
         return this.lineaInvestigacionMapper.toLineaInvestigacionResponse(this.lineaInvestigacionRepository.save(lineaInvestigacion));

@@ -2,6 +2,7 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.SectorRequest;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.SectorResponse;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.mapper.SectorMapper;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.Sector;
@@ -24,7 +25,7 @@ public class SectorServiceImpl implements SectorService {
     @Override
     public SectorResponse crearSector(SectorRequest sectorRequest) {
         if(this.sectorRepository.existsByNombre(sectorRequest.nombre())){
-            throw new RuntimeException("El sector ya esta registrado");
+            throw new ResourceAlreadyExistsException("El sector ya esta registrado");
         }
         Sector sector = this.sectorMapper.toSector(sectorRequest);
         return this.sectorMapper.toSectorResponse(this.sectorRepository.save(sector));

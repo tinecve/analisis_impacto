@@ -3,6 +3,7 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.ModalidadRequest;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.AreaTematicaResponse;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.ModalidadResponse;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.mapper.ModalidadMapper;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.Modalidad;
@@ -25,7 +26,7 @@ public class ModalidadServiceImpl implements ModalidadService {
     @Override
     public ModalidadResponse crearModalidad(ModalidadRequest modalidadRequest) {
         if(this.modalidadRepository.existsByNombre(modalidadRequest.nombre())){
-            throw new RuntimeException("La modalidad ya esta creada");
+            throw new ResourceAlreadyExistsException("La modalidad ya esta creada");
         }
 
         Modalidad modalidad = this.modalidadMapper.toEntity(modalidadRequest);

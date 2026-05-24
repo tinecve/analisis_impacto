@@ -2,6 +2,7 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.TipoProductoRequest;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.TipoProductoResponse;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.mapper.TipoProductoMapper;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.TipoProducto;
@@ -24,7 +25,7 @@ public class TipoProductoServiceImpl implements TipoProductoService {
     @Override
     public TipoProductoResponse crearTipoProducto(TipoProductoRequest tipoProductoRequest) {
         if(this.tipoProductoRepository.existsByNombre(tipoProductoRequest.nombre())){
-            throw new RuntimeException("El tipo de producto ya existe");
+            throw new ResourceAlreadyExistsException("El tipo de producto ya existe");
         }
         TipoProducto tipoProducto = this.tipoProductoMapper.toEntity(tipoProductoRequest);
         return this.tipoProductoMapper.toTipoProductorResponse(this.tipoProductoRepository.save(tipoProducto));

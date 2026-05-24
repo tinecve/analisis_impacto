@@ -2,6 +2,7 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.TrabajoGradoRequest;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.TrabajoGradoResponse;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.mapper.*;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.TrabajoGrado;
@@ -30,7 +31,7 @@ public class TrabajoGradoServiceImpl implements TrabajoGradoService {
     @Override
     public TrabajoGradoResponse crearTrabajoGrado(TrabajoGradoRequest trabajoGradoRequest) {
         if (this.trabajoGradoRepository.existsByTitulo(trabajoGradoRequest.titulo())){
-            throw new RuntimeException("El trabajo de grado ya esta registrado");
+            throw new ResourceAlreadyExistsException("El trabajo de grado ya esta registrado");
         }
         TrabajoGrado trabajoGrado = this.trabajoGradoMapper.toEntity(trabajoGradoRequest);
         return this.trabajoGradoMapper.toTrabajoGradoResponse(this.trabajoGradoRepository.save(trabajoGrado));

@@ -2,6 +2,7 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.UsuarioRequestDTO;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.UsuarioResponseDTO;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.Usuario;
 import co.edu.ufps.ingsistemas.analisis_impacto.repository.UsuarioRepository;
@@ -26,7 +27,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioResponseDTO crearUsuario(UsuarioRequestDTO dto) {
         if(usuarioRepository.existsByEmail(dto.getEmail())){
-            throw new RuntimeException("El email ya esta registrado");
+            throw new ResourceAlreadyExistsException("El email ya esta registrado");
         }
 
         Usuario usuario = Usuario.builder()
