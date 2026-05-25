@@ -5,6 +5,7 @@ spring:
   application:
     name: analisis_impacto
 
+
   datasource:
     url: jdbc:mysql://localhost:3306/an_impacto?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
@@ -18,6 +19,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
 
 
 # Configuración JWT

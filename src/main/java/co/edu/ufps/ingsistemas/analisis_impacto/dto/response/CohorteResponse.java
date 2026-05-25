@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public record CohorteResponse(
         Long id,
-        Integer inio,
+        Integer anio,
         String semestre,
         LocalDate fechaInicio,
         LocalDate fechaFin

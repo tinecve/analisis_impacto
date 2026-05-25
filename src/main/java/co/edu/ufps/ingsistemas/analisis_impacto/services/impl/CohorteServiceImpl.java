@@ -24,7 +24,7 @@ public class CohorteServiceImpl implements CohorteService {
 
     @Override
     public CohorteResponse crearCohorte(CohorteRequest cohorteRequest) {
-        if (this.cohorteRepository.existsByAnioAndSemestre(cohorteRequest.inio(), cohorteRequest.semestre())){
+        if (this.cohorteRepository.existsByAnioAndSemestre(cohorteRequest.anio(), cohorteRequest.semestre())){
             throw new ResourceAlreadyExistsException("El cohorte ya esta registrado");
         }
         Cohorte cohorte = this.cohorteMapper.toEntity(cohorteRequest);

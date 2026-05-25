@@ -63,7 +63,7 @@ public class ModalidadServiceImpl implements ModalidadService {
             throw new ResourceNotFoundException("No existe la modalidad con el id: " + id);
         }
         Modalidad modalidad = modalidadOptional.get();
-        modalidad.setModalidad(modalidadRequest.nombre());
+        modalidad.setNombre(modalidadRequest.nombre());
         modalidad.setDescripcion(modalidadRequest.descripcion());
         return this.modalidadMapper.toModalidadResponse(this.modalidadRepository.save(modalidad));
     }
