@@ -70,7 +70,7 @@ public class TrabajoGradoServiceImpl implements TrabajoGradoService {
         trabajoGrado.setCohorte(this.cohorteMapper.toEntity(trabajoGradoRequest.cohorteRequest()));
         trabajoGrado.setEstado(trabajoGradoRequest.estado());
         trabajoGrado.setLinea(lineaInvestigacionMapper.toEntity(trabajoGradoRequest.lineaInvestigacionRequest()));
-        trabajoGrado.setImplementado(trabajoGradoRequest.implementando());
+        trabajoGrado.setImplementado(trabajoGradoRequest.implementado());
         trabajoGrado.setResumen(trabajoGradoRequest.resumen());
         trabajoGrado.setAreaTematica(this.areaTematicaMapper.toEntity(trabajoGradoRequest.areaTematicaRequest()));
         trabajoGrado.setModalidad(this.modalidadMapper.toEntity(trabajoGradoRequest.modalidadRequest()));

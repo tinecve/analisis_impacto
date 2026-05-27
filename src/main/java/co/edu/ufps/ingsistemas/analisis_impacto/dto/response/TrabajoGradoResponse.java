@@ -14,7 +14,7 @@ public record TrabajoGradoResponse(
         SectorResponse sector,
         String estado,
         LocalDate fechaRegistro,
-        Boolean implementando,
+        Boolean implementado,
         Boolean publicado,
         Boolean socializado,
         Boolean transferido,

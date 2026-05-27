@@ -67,7 +67,7 @@ public class SectorServiceImpl implements SectorService {
 
     @Override
     public void eliminarSector(Long id) {
-        if(this.sectorRepository.existsById(id)){
+        if(!this.sectorRepository.existsById(id)){
             throw new ResourceNotFoundException("No existe el sector con el id: " + id);
         }
         this.sectorRepository.deleteById(id);
