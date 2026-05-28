@@ -1,5 +1,7 @@
 package co.edu.ufps.ingsistemas.analisis_impacto.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public record TrabajoGradoResponse(
@@ -13,6 +15,7 @@ public record TrabajoGradoResponse(
         TipoProductoResponse tipoProductoRequest,
         SectorResponse sector,
         String estado,
+        @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
         LocalDate fechaRegistro,
         Boolean implementado,
         Boolean publicado,

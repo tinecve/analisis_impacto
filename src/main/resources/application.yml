@@ -5,6 +5,14 @@ spring:
   application:
     name: analisis_impacto
 
+  mvc:
+    format:
+      date: dd/MM/yyyy
+
+  jackson:
+
+    date-format: dd/MM/yyyy
+    time-zone: UTC
 
   datasource:
     url: jdbc:mysql://localhost:3306/an_impacto?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
@@ -19,8 +27,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
-
 
 # Configuración JWT
 jwt:
