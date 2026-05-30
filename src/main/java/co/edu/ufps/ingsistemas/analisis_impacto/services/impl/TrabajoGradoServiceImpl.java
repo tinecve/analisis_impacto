@@ -2,17 +2,19 @@ package co.edu.ufps.ingsistemas.analisis_impacto.services.impl;
 
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.request.TrabajoGradoRequest;
 import co.edu.ufps.ingsistemas.analisis_impacto.dto.response.TrabajoGradoResponse;
+import co.edu.ufps.ingsistemas.analisis_impacto.exception.EntityNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceAlreadyExistsException;
 import co.edu.ufps.ingsistemas.analisis_impacto.exception.ResourceNotFoundException;
 import co.edu.ufps.ingsistemas.analisis_impacto.mapper.*;
 import co.edu.ufps.ingsistemas.analisis_impacto.model.TrabajoGrado;
-import co.edu.ufps.ingsistemas.analisis_impacto.repository.TrabajoGradoRepository;
+import co.edu.ufps.ingsistemas.analisis_impacto.repository.*;
 import co.edu.ufps.ingsistemas.analisis_impacto.services.TrabajoGradoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,13 +29,45 @@ public class TrabajoGradoServiceImpl implements TrabajoGradoService {
     private final ModalidadMapper modalidadMapper;
     private final SectorMapper sectorMapper;
     private final TipoProductoMapper tipoProductoMapper;
+    private final CohorteRepository cohorteRepository;
+    private final LineaInvestigacionRepository lineaInvestigacionRepository;
+    private final ModalidadRepository modalidadRepository;
+    private final AreaTematicaRepository areaTematicaRepository;
+    private final TipoProductoRepository tipoProductoRepository;
+    private final SectorRepository sectorRepository;
 
     @Override
     public TrabajoGradoResponse crearTrabajoGrado(TrabajoGradoRequest trabajoGradoRequest) {
         if (this.trabajoGradoRepository.existsByTitulo(trabajoGradoRequest.titulo())){
             throw new ResourceAlreadyExistsException("El trabajo de grado ya esta registrado");
         }
+
         TrabajoGrado trabajoGrado = this.trabajoGradoMapper.toEntity(trabajoGradoRequest);
+
+        if(trabajoGradoRequest.cohorteRequestId() != null){
+            trabajoGrado.setCohorte(cohorteRepository.findById(trabajoGradoRequest.cohorteRequestId()).orElseThrow(() -> new EntityNotFoundException("Cohorte no encontrado")));
+        }
+
+        if(trabajoGradoRequest.lineaInvestigacionRequestId() != null){
+            trabajoGrado.setLinea(lineaInvestigacionRepository.findById(trabajoGradoRequest.lineaInvestigacionRequestId()).orElseThrow(() -> new EntityNotFoundException("Linea de investigacion no encontrada")));
+        }
+
+        if(trabajoGradoRequest.modalidadRequestId() != null){
+            trabajoGrado.setModalidad(modalidadRepository.findById(trabajoGradoRequest.modalidadRequestId()).orElseThrow(() -> new EntityNotFoundException("Modalidad no encotrada")));
+        }
+
+        if(trabajoGradoRequest.areaTematicaRequestId() != null){
+            trabajoGrado.setAreaTematica(areaTematicaRepository.findById(trabajoGradoRequest.areaTematicaRequestId()).orElseThrow(() -> new EntityNotFoundException("Area tematica no existe")));
+        }
+
+        if(trabajoGradoRequest.tipoProductoRequestId() != null){
+            trabajoGrado.setTipoProducto(tipoProductoRepository.findById(trabajoGradoRequest.tipoProductoRequestId()).orElseThrow(() -> new EntityNotFoundException("Tipo de producto no existe")));
+        }
+
+        if(trabajoGradoRequest.sectorRequestId() != null){
+            trabajoGrado.setSector(sectorRepository.findById(trabajoGradoRequest.sectorRequestId()).orElseThrow(() -> new EntityNotFoundException("Sector no encontrado")));
+        }
+
         return this.trabajoGradoMapper.toTrabajoGradoResponse(this.trabajoGradoRepository.save(trabajoGrado));
     }
 
@@ -67,20 +101,39 @@ public class TrabajoGradoServiceImpl implements TrabajoGradoService {
             throw new ResourceNotFoundException("No existe el trabajo de grado con el id: " + id);
         }
         TrabajoGrado trabajoGrado = trabajoGradoOptional.get();
-        trabajoGrado.setCohorte(this.cohorteMapper.toEntity(trabajoGradoRequest.cohorteRequest()));
         trabajoGrado.setEstado(trabajoGradoRequest.estado());
-        trabajoGrado.setLinea(lineaInvestigacionMapper.toEntity(trabajoGradoRequest.lineaInvestigacionRequest()));
         trabajoGrado.setImplementado(trabajoGradoRequest.implementado());
         trabajoGrado.setResumen(trabajoGradoRequest.resumen());
-        trabajoGrado.setAreaTematica(this.areaTematicaMapper.toEntity(trabajoGradoRequest.areaTematicaRequest()));
-        trabajoGrado.setModalidad(this.modalidadMapper.toEntity(trabajoGradoRequest.modalidadRequest()));
-        trabajoGrado.setSector(sectorMapper.toSector(trabajoGradoRequest.sector()));
         trabajoGrado.setPublicado(trabajoGradoRequest.publicado());
         trabajoGrado.setEnlaceRepositorio(trabajoGradoRequest.enlaceRepositorio());
         trabajoGrado.setFechaRegistro(trabajoGradoRequest.fechaRegistro());
         trabajoGrado.setSocializado(trabajoGradoRequest.socializado());
-        trabajoGrado.setTipoProducto(this.tipoProductoMapper.toEntity(trabajoGradoRequest.tipoProductoRequest()));
         trabajoGrado.setTransferido(trabajoGradoRequest.transferido());
+
+        if(trabajoGradoRequest.cohorteRequestId() != null  && !Objects.equals(trabajoGrado.getCohorte().getId(), trabajoGradoRequest.cohorteRequestId())){
+            trabajoGrado.setCohorte(cohorteRepository.findById(trabajoGradoRequest.cohorteRequestId()).orElseThrow(() -> new EntityNotFoundException("Cohorte no encontrado")));
+        }
+
+        if(trabajoGradoRequest.lineaInvestigacionRequestId() != null && !Objects.equals(trabajoGrado.getLinea().getId(), trabajoGradoRequest.lineaInvestigacionRequestId())){
+            trabajoGrado.setLinea(lineaInvestigacionRepository.findById(trabajoGradoRequest.lineaInvestigacionRequestId()).orElseThrow(() -> new EntityNotFoundException("Linea de investigacion no encontrada")));
+        }
+
+        if(trabajoGradoRequest.modalidadRequestId() != null && !Objects.equals(trabajoGrado.getModalidad().getId(), trabajoGradoRequest.modalidadRequestId())){
+            trabajoGrado.setModalidad(modalidadRepository.findById(trabajoGradoRequest.modalidadRequestId()).orElseThrow(() -> new EntityNotFoundException("Modalidad no encotrada")));
+        }
+
+        if(trabajoGradoRequest.areaTematicaRequestId() != null && !Objects.equals(trabajoGrado.getAreaTematica().getId(), trabajoGradoRequest.areaTematicaRequestId())){
+            trabajoGrado.setAreaTematica(areaTematicaRepository.findById(trabajoGradoRequest.areaTematicaRequestId()).orElseThrow(() -> new EntityNotFoundException("Area tematica no existe")));
+        }
+
+        if(trabajoGradoRequest.tipoProductoRequestId() != null && !Objects.equals(trabajoGrado.getTipoProducto().getId(), trabajoGradoRequest.tipoProductoRequestId())){
+            trabajoGrado.setTipoProducto(tipoProductoRepository.findById(trabajoGradoRequest.tipoProductoRequestId()).orElseThrow(() -> new EntityNotFoundException("Tipo de producto no existe")));
+        }
+
+        if(trabajoGradoRequest.sectorRequestId() != null && !Objects.equals(trabajoGrado.getSector().getId(), trabajoGradoRequest.sectorRequestId())) {
+            trabajoGrado.setSector(sectorRepository.findById(trabajoGradoRequest.sectorRequestId()).orElseThrow(() -> new EntityNotFoundException("Sector no encontrado")));
+        }
+
         return this.trabajoGradoMapper.toTrabajoGradoResponse(this.trabajoGradoRepository.save(trabajoGrado));
     }
 
